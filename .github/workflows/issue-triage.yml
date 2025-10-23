@@ -41,11 +41,13 @@ jobs:
           github-token: ${{ secrets.TRIAGE_TOKEN != '' && secrets.TRIAGE_TOKEN || secrets.GITHUB_TOKEN }}
 
       - name: Auto-assign (optional)
-        if: ${{ vars.TRIAGE_ASSIGNEES != '' }}
         uses: actions/github-script@v7
         with:
           script: |
-            const assignees = (process.env.TRIAGE_ASSIGNEES || '').split(',').map(s => s.trim()).filter(Boolean);
+            const fromVar = process.env.VAR_TRIAGE_ASSIGNEES || '';
+            const fromSecret = process.env.SECRET_TRIAGE_ASSIGNEES || '';
+            const source = fromVar || fromSecret;
+            const assignees = source.split(',').map(s => s.trim()).filter(Boolean);
             if (assignees.length === 0) return;
             await github.rest.issues.addAssignees({
               owner: context.repo.owner,
@@ -54,7 +56,8 @@ jobs:
               assignees
             });
         env:
-          TRIAGE_ASSIGNEES: ${{ vars.TRIAGE_ASSIGNEES }}
+          VAR_TRIAGE_ASSIGNEES: ${{ vars.TRIAGE_ASSIGNEES }}
+          SECRET_TRIAGE_ASSIGNEES: ${{ secrets.TRIAGE_ASSIGNEES }}
 
       - name: Slack notify (optional)
         if: ${{ secrets.SLACK_WEBHOOK_URL != '' }}
@@ -68,4 +71,3 @@ jobs:
         run: |
           payload=$(jq -n --arg text "New issue in $REPO: <$URL|$TITLE>\nBy: @$USER\nLabels: $LABELS" '{text: $text}')
           curl -s -X POST -H 'Content-type: application/json' --data "$payload" "$SLACK_WEBHOOK_URL" >/dev/null 2>&1 || true
-
