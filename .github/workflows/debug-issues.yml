@@ -1,0 +1,23 @@
+name: debug-issues
+
+on:
+  issues:
+    types: [opened, labeled]
+
+permissions:
+  issues: write
+
+jobs:
+  echo:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Echo context
+        run: |
+          echo "Event: $GITHUB_EVENT_NAME"
+          echo "Issue: ${{ github.event.issue.html_url }}"
+      - name: Comment on issue
+        run: |
+          gh issue comment "${{ github.event.issue.number }}" --repo "${{ github.repository }}" --body "Debug: issues event received by GitHub Actions."
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
