@@ -1,0 +1,14 @@
+labels:
+  - name: feature-request
+    color: 36A2EB
+    description: Proposed enhancement or new capability
+  - name: new-card
+    color: 6f42c1
+    description: Request for a new UI card/component
+  - name: data-issue
+    color: F39C12
+    description: Data appears incorrect, missing, or stale (no raw vendor dumps)
+  - name: bug
+    color: D73A4A
+    description: Functional issue or defect in behavior
+
