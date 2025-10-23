@@ -1,0 +1,57 @@
+name: Functional Issue (Bug)
+description: Report a functional problem in the app
+title: "bug: [short description]"
+labels: [bug]
+assignees: []
+body:
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: What went wrong? One sentence.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: Be specific and include what you clicked and saw.
+      placeholder: |
+        1. Go to ...
+        2. Click ...
+        3. Observe ...
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+    validations:
+      required: true
+  - type: dropdown
+    id: severity
+    attributes:
+      label: Severity
+      options:
+        - Low (cosmetic)
+        - Medium (workaround exists)
+        - High (blocks task)
+        - Critical (system down)
+      default: 1
+  - type: input
+    id: page
+    attributes:
+      label: Page / URL
+      placeholder: https://app.sigmatiq.ai/...
+  - type: textarea
+    id: env
+    attributes:
+      label: Environment
+      description: Browser/OS, viewport size, app version if available.
+

@@ -1,0 +1,56 @@
+name: New Card Request
+description: Request a new card (UI component) in the product
+title: "card: [short card name]"
+labels: [feature-request, new-card]
+assignees: []
+body:
+  - type: input
+    id: card_name
+    attributes:
+      label: Card Name
+      placeholder: e.g., Relative Volume Heatmap
+    validations:
+      required: true
+  - type: textarea
+    id: purpose
+    attributes:
+      label: Purpose / Problem
+      description: What decision or insight should this card enable?
+    validations:
+      required: true
+  - type: textarea
+    id: design
+    attributes:
+      label: Content & Layout
+      description: Data fields, visual elements, states, interactions. Attach mockups if possible.
+  - type: dropdown
+    id: data_sources
+    attributes:
+      label: Data Sources (high-level)
+      multiple: true
+      options:
+        - Internal analytics
+        - User portfolio
+        - Watchlists
+        - Market aggregates (derived)
+        - News sentiment (derived)
+  - type: input
+    id: page
+    attributes:
+      label: Target Page / URL
+      placeholder: https://app.sigmatiq.ai/... (optional)
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance Criteria
+      description: Bullet points describing done conditions.
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority
+      options:
+        - Nice to have
+        - Important
+        - Critical
+      default: 1
+

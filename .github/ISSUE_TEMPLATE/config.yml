@@ -1,0 +1,6 @@
+blank_issues_enabled: false
+contact_links:
+  - name: New Issue (choose a template)
+    url: https://github.com/Sigmatiq/sigmatiq-docs/issues/new/choose
+    about: Use one of the structured templates to help us triage quickly.
+

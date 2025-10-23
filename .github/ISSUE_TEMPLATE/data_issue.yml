@@ -1,0 +1,46 @@
+name: Data Issue
+description: Report incorrect, missing, or stale data
+title: "data: [symbol/date/area]"
+labels: [data-issue]
+assignees: []
+body:
+  - type: input
+    id: symbol
+    attributes:
+      label: Symbol / Instrument
+      placeholder: e.g., AAPL
+    validations:
+      required: false
+  - type: input
+    id: timeframe
+    attributes:
+      label: Date / Timeframe
+      placeholder: e.g., 2025-10-17 (NY time) or last 7d
+  - type: dropdown
+    id: issue_type
+    attributes:
+      label: Issue Type
+      options:
+        - Incorrect values
+        - Missing values
+        - Stale data
+        - Other
+      default: 0
+  - type: textarea
+    id: details
+    attributes:
+      label: Details
+      description: Describe what is wrong and expected values if known. Do not paste raw vendor feeds.
+    validations:
+      required: true
+  - type: input
+    id: page
+    attributes:
+      label: Page / URL context
+      placeholder: https://app.sigmatiq.ai/...
+  - type: textarea
+    id: env
+    attributes:
+      label: Environment
+      description: Browser/OS, app version if available.
+

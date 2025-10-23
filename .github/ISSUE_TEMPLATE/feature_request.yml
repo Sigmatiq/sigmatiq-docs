@@ -1,0 +1,48 @@
+name: Feature Request
+description: Propose a new feature or enhancement
+title: "feat: [short description]"
+labels: [feature-request]
+assignees: []
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What problem does this feature solve? Who is impacted?
+      placeholder: Users struggle to...
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposal
+      description: Describe the solution you’d like (mockups welcome).
+      placeholder: Add a card that...
+    validations:
+      required: true
+  - type: textarea
+    id: value
+    attributes:
+      label: Value / Impact
+      description: Why is this worth doing? Expected outcomes or KPIs.
+  - type: input
+    id: page
+    attributes:
+      label: Page / URL context
+      description: Where in the app would this feature live?
+      placeholder: https://app.sigmatiq.ai/...
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority
+      options:
+        - Nice to have
+        - Important
+        - Critical
+      default: 1
+  - type: textarea
+    id: extras
+    attributes:
+      label: Additional context
+      description: Screenshots, links, or notes.
+
