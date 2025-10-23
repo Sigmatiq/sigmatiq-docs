@@ -11,4 +11,6 @@ labels:
   - name: bug
     color: D73A4A
     description: Functional issue or defect in behavior
-
+  - name: triaged
+    color: 0E8A16
+    description: Triage processed; added to project and notified
