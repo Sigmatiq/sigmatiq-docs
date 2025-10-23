@@ -3,6 +3,12 @@ name: issue-triage
 on:
   issues:
     types: [opened, labeled]
+  workflow_dispatch:
+    inputs:
+      issue_number:
+        description: Issue number to triage (manual test)
+        required: true
+        type: number
 
 permissions:
   contents: read
@@ -12,29 +18,44 @@ permissions:
 jobs:
   add-to-project-and-notify:
     runs-on: ubuntu-latest
+    env:
+      DISPATCH_ISSUE: ${{ inputs.issue_number }}
     steps:
+      - name: Resolve issue number
+        id: resolve
+        run: |
+          if [ -n "${DISPATCH_ISSUE}" ]; then
+            echo "issue_number=${DISPATCH_ISSUE}" >> $GITHUB_OUTPUT
+          else
+            echo "issue_number=${{ github.event.issue.number }}" >> $GITHUB_OUTPUT
+          fi
+
       - name: Ensure baseline labels
         uses: actions/github-script@v7
         with:
           script: |
-            const issue = context.payload.issue;
-            if (!issue) return;
+            const issueNumber = Number(process.env.ISSUE_NUMBER || 0);
+            if (!issueNumber) return;
+            const { data: issue } = await github.rest.issues.get({ owner: context.repo.owner, repo: context.repo.repo, issue_number: issueNumber });
             const labels = new Set((issue.labels || []).map(l => typeof l === 'string' ? l : l.name));
             const title = issue.title || '';
-            // Fallback labeling based on title prefixes if templates not used
             if (/^feat:/i.test(title)) labels.add('feature-request');
             if (/^card:/i.test(title)) labels.add('new-card');
             if (/^data:/i.test(title)) labels.add('data-issue');
             if (/^bug:/i.test(title)) labels.add('bug');
-            await github.rest.issues.update({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: issue.number,
-              labels: Array.from(labels)
-            });
+            if (labels.size > 0) {
+              await github.rest.issues.update({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issueNumber,
+                labels: Array.from(labels)
+              });
+            }
+        env:
+          ISSUE_NUMBER: ${{ steps.resolve.outputs.issue_number }}
 
-      - name: Add to GitHub Project (optional)
-        if: ${{ secrets.TRIAGE_PROJECT_URL != '' }}
+      - name: Add to GitHub Project (issues event only)
+        if: ${{ secrets.TRIAGE_PROJECT_URL != '' && github.event_name == 'issues' }}
         uses: actions/add-to-project@v1
         with:
           project-url: ${{ secrets.TRIAGE_PROJECT_URL }}
@@ -52,10 +73,11 @@ jobs:
             await github.rest.issues.addAssignees({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              issue_number: context.payload.issue.number,
+              issue_number: Number(process.env.ISSUE_NUMBER),
               assignees
             });
         env:
+          ISSUE_NUMBER: ${{ steps.resolve.outputs.issue_number }}
           VAR_TRIAGE_ASSIGNEES: ${{ vars.TRIAGE_ASSIGNEES }}
           SECRET_TRIAGE_ASSIGNEES: ${{ secrets.TRIAGE_ASSIGNEES }}
 
@@ -63,11 +85,13 @@ jobs:
         if: ${{ secrets.SLACK_WEBHOOK_URL != '' }}
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-          TITLE: ${{ github.event.issue.title }}
-          URL: ${{ github.event.issue.html_url }}
-          USER: ${{ github.event.issue.user.login }}
-          LABELS: ${{ join(github.event.issue.labels.*.name, ', ') }}
+          ISSUE_NUMBER: ${{ steps.resolve.outputs.issue_number }}
           REPO: ${{ github.repository }}
         run: |
+          json=$(gh api repos/${GITHUB_REPOSITORY}/issues/${ISSUE_NUMBER})
+          TITLE=$(echo "$json" | jq -r .title)
+          URL=$(echo "$json" | jq -r .html_url)
+          USER=$(echo "$json" | jq -r .user.login)
+          LABELS=$(echo "$json" | jq -r '[.labels[].name] | join(", ")')
           payload=$(jq -n --arg text "New issue in $REPO: <$URL|$TITLE>\nBy: @$USER\nLabels: $LABELS" '{text: $text}')
           curl -s -X POST -H 'Content-type: application/json' --data "$payload" "$SLACK_WEBHOOK_URL" >/dev/null 2>&1 || true
