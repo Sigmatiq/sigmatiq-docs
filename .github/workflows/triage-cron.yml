@@ -52,11 +52,12 @@ jobs:
           assignees=${VAR_TRIAGE_ASSIGNEES:-$SECRET_TRIAGE_ASSIGNEES}
           owner='${{ steps.proj.outputs.owner }}'
           number='${{ steps.proj.outputs.number }}'
-          for row in $(jq -c '.[]' pending.json); do
-            num=$(echo "$row" | jq -r .number)
-            title=$(echo "$row" | jq -r .title)
-            url=$(echo "$row" | jq -r .url)
-            labels=$(echo "$row" | jq -r '[.labels[].name] | join(",")')
+          for row in $(jq -r '.[] | @base64' pending.json); do
+            obj=$(echo "$row" | base64 -d)
+            num=$(echo "$obj" | jq -r .number)
+            title=$(echo "$obj" | jq -r .title)
+            url=$(echo "$obj" | jq -r .url)
+            labels=$(echo "$obj" | jq -r '[.labels[].name] | join(",")')
             # Baseline labels based on title prefix
             add_labels=()
             if echo "$title" | grep -Ei '^feat:' >/dev/null; then add_labels+=(feature-request); fi
