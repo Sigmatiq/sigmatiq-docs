@@ -1,0 +1,81 @@
+name: triage-cron
+
+on:
+  schedule:
+    - cron: '*/15 * * * *'
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  sweep:
+    runs-on: ubuntu-latest
+    env:
+      REPO: ${{ github.repository }}
+      PROJECT_URL: ${{ secrets.TRIAGE_PROJECT_URL }}
+      GH_TOKEN: ${{ secrets.TRIAGE_TOKEN != '' && secrets.TRIAGE_TOKEN || secrets.GITHUB_TOKEN }}
+      VAR_TRIAGE_ASSIGNEES: ${{ vars.TRIAGE_ASSIGNEES }}
+      SECRET_TRIAGE_ASSIGNEES: ${{ secrets.TRIAGE_ASSIGNEES }}
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+    steps:
+      - name: Determine project owner and number
+        id: proj
+        shell: bash
+        run: |
+          if [ -n "$PROJECT_URL" ]; then
+            # URL formats: https://github.com/orgs/<owner>/projects/<num> or https://github.com/<owner>/<repo>/projects/<num>
+            owner=$(echo "$PROJECT_URL" | sed -E 's#https://github.com/(orgs/)?([^/]+)/.*#\2#')
+            number=$(echo "$PROJECT_URL" | sed -E 's#.*/projects/([0-9]+).*#\1#')
+            echo "owner=$owner" >> $GITHUB_OUTPUT
+            echo "number=$number" >> $GITHUB_OUTPUT
+          fi
+
+      - name: List open issues without triaged label
+        id: list
+        shell: bash
+        run: |
+          gh issue list --repo "$REPO" --state open --limit 50 --json number,title,url,labels,author > issues.json
+          jq '[ .[] | select( (.labels | map(.name) | index("triaged")) | not ) ]' issues.json > pending.json
+          count=$(jq 'length' pending.json)
+          echo "count=$count" >> $GITHUB_OUTPUT
+          echo "Found $count pending issues"
+
+      - name: Process issues
+        if: ${{ steps.list.outputs.count != '0' }}
+        shell: bash
+        run: |
+          assignees=${VAR_TRIAGE_ASSIGNEES:-$SECRET_TRIAGE_ASSIGNEES}
+          owner='${{ steps.proj.outputs.owner }}'
+          number='${{ steps.proj.outputs.number }}'
+          for row in $(jq -c '.[]' pending.json); do
+            num=$(echo "$row" | jq -r .number)
+            title=$(echo "$row" | jq -r .title)
+            url=$(echo "$row" | jq -r .url)
+            labels=$(echo "$row" | jq -r '[.labels[].name] | join(",")')
+            # Baseline labels based on title prefix
+            add_labels=()
+            if echo "$title" | grep -Ei '^feat:' >/dev/null; then add_labels+=(feature-request); fi
+            if echo "$title" | grep -Ei '^card:' >/dev/null; then add_labels+=(new-card); fi
+            if echo "$title" | grep -Ei '^data:' >/dev/null; then add_labels+=(data-issue); fi
+            if echo "$title" | grep -Ei '^bug:'  >/dev/null; then add_labels+=(bug); fi
+            add_labels+=(triaged)
+            if [ ${#add_labels[@]} -gt 0 ]; then
+              gh issue edit $num --repo "$REPO" --add-label "$(IFS=,; echo "${add_labels[*]}")" || true
+            fi
+            # Add to project if configured
+            if [ -n "$owner" ] && [ -n "$number" ]; then
+              gh project item-add --owner "$owner" --number "$number" --url "$url" || true
+            fi
+            # Auto-assign if configured
+            if [ -n "$assignees" ]; then
+              gh issue edit $num --repo "$REPO" --add-assignee "$assignees" || true
+            fi
+            # Slack notify
+            if [ -n "$SLACK_WEBHOOK_URL" ]; then
+              payload=$(jq -n --arg text "New issue in $REPO: <$url|$title>\nLabels: $labels" '{text: $text}')
+              curl -s -X POST -H 'Content-type: application/json' --data "$payload" "$SLACK_WEBHOOK_URL" >/dev/null 2>&1 || true
+            fi
+          done
+
