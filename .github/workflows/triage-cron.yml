@@ -15,7 +15,10 @@ jobs:
     env:
       REPO: ${{ github.repository }}
       PROJECT_URL: ${{ secrets.TRIAGE_PROJECT_URL }}
-      GH_TOKEN: ${{ secrets.TRIAGE_TOKEN != '' && secrets.TRIAGE_TOKEN || secrets.GITHUB_TOKEN }}
+      # Use default GITHUB_TOKEN for repo issue operations
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # Keep PAT available for org Project operations
+      TRIAGE_PAT: ${{ secrets.TRIAGE_TOKEN }}
       VAR_TRIAGE_ASSIGNEES: ${{ vars.TRIAGE_ASSIGNEES }}
       SECRET_TRIAGE_ASSIGNEES: ${{ secrets.TRIAGE_ASSIGNEES }}
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
@@ -66,7 +69,7 @@ jobs:
             fi
             # Add to project if configured
             if [ -n "$owner" ] && [ -n "$number" ]; then
-              gh project item-add --owner "$owner" --number "$number" --url "$url" || true
+              GH_TOKEN="$TRIAGE_PAT" gh project item-add --owner "$owner" --number "$number" --url "$url" || true
             fi
             # Auto-assign if configured
             if [ -n "$assignees" ]; then
@@ -78,4 +81,3 @@ jobs:
               curl -s -X POST -H 'Content-type: application/json' --data "$payload" "$SLACK_WEBHOOK_URL" >/dev/null 2>&1 || true
             fi
           done
-
