@@ -1,0 +1,71 @@
+name: issue-triage
+
+on:
+  issues:
+    types: [opened, labeled]
+
+permissions:
+  contents: read
+  issues: write
+  pull-requests: read
+
+jobs:
+  add-to-project-and-notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ensure baseline labels
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const issue = context.payload.issue;
+            if (!issue) return;
+            const labels = new Set((issue.labels || []).map(l => typeof l === 'string' ? l : l.name));
+            const title = issue.title || '';
+            // Fallback labeling based on title prefixes if templates not used
+            if (/^feat:/i.test(title)) labels.add('feature-request');
+            if (/^card:/i.test(title)) labels.add('new-card');
+            if (/^data:/i.test(title)) labels.add('data-issue');
+            if (/^bug:/i.test(title)) labels.add('bug');
+            await github.rest.issues.update({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issue.number,
+              labels: Array.from(labels)
+            });
+
+      - name: Add to GitHub Project (optional)
+        if: ${{ secrets.TRIAGE_PROJECT_URL != '' }}
+        uses: actions/add-to-project@v1
+        with:
+          project-url: ${{ secrets.TRIAGE_PROJECT_URL }}
+          github-token: ${{ secrets.TRIAGE_TOKEN != '' && secrets.TRIAGE_TOKEN || secrets.GITHUB_TOKEN }}
+
+      - name: Auto-assign (optional)
+        if: ${{ vars.TRIAGE_ASSIGNEES != '' }}
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const assignees = (process.env.TRIAGE_ASSIGNEES || '').split(',').map(s => s.trim()).filter(Boolean);
+            if (assignees.length === 0) return;
+            await github.rest.issues.addAssignees({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.payload.issue.number,
+              assignees
+            });
+        env:
+          TRIAGE_ASSIGNEES: ${{ vars.TRIAGE_ASSIGNEES }}
+
+      - name: Slack notify (optional)
+        if: ${{ secrets.SLACK_WEBHOOK_URL != '' }}
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          TITLE: ${{ github.event.issue.title }}
+          URL: ${{ github.event.issue.html_url }}
+          USER: ${{ github.event.issue.user.login }}
+          LABELS: ${{ join(github.event.issue.labels.*.name, ', ') }}
+          REPO: ${{ github.repository }}
+        run: |
+          payload=$(jq -n --arg text "New issue in $REPO: <$URL|$TITLE>\nBy: @$USER\nLabels: $LABELS" '{text: $text}')
+          curl -s -X POST -H 'Content-type: application/json' --data "$payload" "$SLACK_WEBHOOK_URL" >/dev/null 2>&1 || true
+
