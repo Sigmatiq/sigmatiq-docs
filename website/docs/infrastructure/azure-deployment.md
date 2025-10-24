@@ -11,7 +11,7 @@ keywords: [azure, deployment, infrastructure, beginner-friendly]
 > **Last Updated:** October 23, 2025
 > **Status:** Active - Fresh Azure account setup
 
-## 📋 Overview
+##  Overview
 
 This document describes how we deploy the Sigmatiq trading platform to Microsoft Azure. We designed this infrastructure with **beginner traders** in mind - safe, scalable, and cost-effective.
 
@@ -23,7 +23,7 @@ This document describes how we deploy the Sigmatiq trading platform to Microsoft
 
 ---
 
-## 🎯 Design Principles
+##  Design Principles
 
 ### 1. **Beginner-First Safety**
 - **Data separation:** Databases are in separate resource groups from apps (prevents accidental deletion)
@@ -42,7 +42,7 @@ This document describes how we deploy the Sigmatiq trading platform to Microsoft
 
 ---
 
-## 🏗️ Infrastructure Architecture
+##  Infrastructure Architecture
 
 ### Environments
 
@@ -57,7 +57,7 @@ We use **two environments only:**
 
 ---
 
-## 📦 Resource Organization
+##  Resource Organization
 
 ### Resource Groups (5 total)
 
@@ -65,34 +65,34 @@ We organize resources into **5 resource groups** for safety and access control:
 
 ```
 Azure Subscription
-│
-├── rg-trading-shared
-│   ├── kv-trading-shared (Key Vault for provider secrets)
-│   └── acrtradingshared (Container Registry)
-│
-├── rg-trading-beta-data
-│   ├── psql-trading-beta (PostgreSQL Server)
-│   └── redis-trading-beta (Redis Cache)
-│
-├── rg-trading-beta-apps
-│   ├── kv-trading-beta (Key Vault)
-│   ├── appconfig-trading-beta (App Configuration)
-│   ├── cae-trading-beta (Container Apps Environment)
-│   ├── auth-api-beta (Authentication API)
-│   ├── native-api-beta (Native Trading API)
-│   ├── pilot-api-beta (Pilot Features API)
-│   ├── card-api-beta (Card API)
-│   └── sim-api-beta (Paper Trading API)
-│
-├── rg-trading-prod-data
-│   ├── psql-trading-prod (PostgreSQL Server)
-│   └── redis-trading-prod (Redis Cache)
-│
-└── rg-trading-prod-apps
-    ├── kv-trading-prod (Key Vault)
-    ├── appconfig-trading-prod (App Configuration)
-    ├── cae-trading-prod (Container Apps Environment)
-    └── [Same 5 APIs as beta]
+
+ rg-trading-shared
+    kv-trading-shared (Key Vault for provider secrets)
+    acrtradingshared (Container Registry)
+
+ rg-trading-beta-data
+    psql-trading-beta (PostgreSQL Server)
+    redis-trading-beta (Redis Cache)
+
+ rg-trading-beta-apps
+    kv-trading-beta (Key Vault)
+    appconfig-trading-beta (App Configuration)
+    cae-trading-beta (Container Apps Environment)
+    auth-api-beta (Authentication API)
+    native-api-beta (Native Trading API)
+    pilot-api-beta (Pilot Features API)
+    card-api-beta (Card API)
+    sim-api-beta (Paper Trading API)
+
+ rg-trading-prod-data
+    psql-trading-prod (PostgreSQL Server)
+    redis-trading-prod (Redis Cache)
+
+ rg-trading-prod-apps
+     kv-trading-prod (Key Vault)
+     appconfig-trading-prod (App Configuration)
+     cae-trading-prod (Container Apps Environment)
+     [Same 5 APIs as beta]
 ```
 
 ### Why Separate Data and Apps?
@@ -101,7 +101,7 @@ Azure Subscription
 
 ---
 
-## 🔧 Naming Convention
+##  Naming Convention
 
 **Pattern:** `{resource-type}-{product}-{environment}`
 
@@ -118,7 +118,7 @@ Azure Subscription
 
 ---
 
-## 🗄️ Database Architecture
+##  Database Architecture
 
 ### PostgreSQL Server: `psql-trading-beta`
 
@@ -157,7 +157,7 @@ One PostgreSQL server hosts **8 databases:**
 
 ---
 
-## 🚀 Application Services
+##  Application Services
 
 ### Container Apps (5 APIs)
 
@@ -191,20 +191,20 @@ trading/sim-api:latest
 
 ---
 
-## 💾 Caching Strategy
+##  Caching Strategy
 
-**3-Level Cache (L1 → L2 → L3):**
+**3-Level Cache (L1  L2  L3):**
 
 ```
 Request
-  ↓
-[L1: Memory Cache] ← Fast (microseconds), per-process
-  ↓ miss
-[L2: Redis Cache] ← Medium (milliseconds), shared
-  ↓ miss
-[L3: Database Tables] ← Slow (seconds), persistent
-  ↓ miss
-[Provider API] ← Expensive ($$$), rate-limited
+  
+[L1: Memory Cache]  Fast (microseconds), per-process
+   miss
+[L2: Redis Cache]  Medium (milliseconds), shared
+   miss
+[L3: Database Tables]  Slow (seconds), persistent
+   miss
+[Provider API]  Expensive ($$$), rate-limited
 ```
 
 ### Configuration
@@ -233,9 +233,9 @@ REDIS_PORT=6380
 
 ---
 
-## 🔐 Security & Secrets
+##  Security & Secrets
 
-### Shared Key Vault: `kv-trading-shared` ⭐ NEW
+### Shared Key Vault: `kv-trading-shared`  NEW
 
 **Purpose:** Centralized storage for provider secrets shared across all environments
 
@@ -273,8 +273,8 @@ Each environment has its own vault for environment-specific secrets:
 
 Each environment has a **Managed Identity** (passwordless authentication):
 
-- `mi-trading-beta` → Used by all beta container apps
-- `mi-trading-prod` → Used by all prod container apps
+- `mi-trading-beta`  Used by all beta container apps
+- `mi-trading-prod`  Used by all prod container apps
 
 **Permissions:**
 - AcrPull on container registry
@@ -285,7 +285,7 @@ Each environment has a **Managed Identity** (passwordless authentication):
 
 ---
 
-## 🌐 Networking & Domains
+##  Networking & Domains
 
 ### Beta Environment
 
@@ -298,22 +298,22 @@ native-api-beta.{region}.azurecontainerapps.io
 
 **Future custom domains:**
 ```
-beta-api.sigmatiq.com → API Gateway
-beta.sigmatiq.com → Mobile/Web UI
+beta-api.sigmatiq.com  API Gateway
+beta.sigmatiq.com  Mobile/Web UI
 ```
 
 ### Production Environment
 
 **Custom domains (future):**
 ```
-api.sigmatiq.com → Production API Gateway
-app.sigmatiq.com → Production Mobile/Web UI
-docs.sigmatiq.ai → Developer documentation
+api.sigmatiq.com  Production API Gateway
+app.sigmatiq.com  Production Mobile/Web UI
+docs.sigmatiq.ai  Developer documentation
 ```
 
 ---
 
-## 📊 Cost Estimates
+##  Cost Estimates
 
 ### Beta Environment (Monthly)
 
@@ -349,7 +349,7 @@ docs.sigmatiq.ai → Developer documentation
 
 ---
 
-## 🚦 Migration Strategy (Future)
+##  Migration Strategy (Future)
 
 When we split `sigmatiq_core` into core + research:
 
@@ -368,7 +368,7 @@ When we split `sigmatiq_core` into core + research:
 
 ---
 
-## 📝 Deployment Checklist
+##  Deployment Checklist
 
 ### Initial Setup (One-time)
 
@@ -377,7 +377,7 @@ When we split `sigmatiq_core` into core + research:
 - [ ] Create resource groups (5)
 - [ ] Verify all RGs created with correct tags
 
-**Step 2a: Shared Key Vault** ⭐ NEW
+**Step 2a: Shared Key Vault**  NEW
 - [ ] Deploy `kv-trading-shared` in `rg-trading-shared`
 - [ ] Store provider secrets (Polygon, Alpaca, Alpha Vantage)
 - [ ] Store external integration secrets (OpenAI API keys)
@@ -429,7 +429,7 @@ When we split `sigmatiq_core` into core + research:
 
 ---
 
-## 🔍 Monitoring & Observability
+##  Monitoring & Observability
 
 ### Health Checks
 
@@ -456,7 +456,7 @@ Each API exposes:
 
 ---
 
-## 🤝 Contributing
+##  Contributing
 
 Questions or suggestions about this infrastructure?
 
@@ -466,7 +466,7 @@ Questions or suggestions about this infrastructure?
 
 ---
 
-## 📚 Related Documentation
+##  Related Documentation
 
 - [Architecture Review Fixes](https://github.com/Sigmatiq/sigmatiq-infrastructure/blob/main/docs/REVIEW_FIXES.md) - All fixes applied based on architecture review
 - [Infrastructure README](https://github.com/Sigmatiq/sigmatiq-infrastructure/blob/main/README.md) - Deployment scripts and troubleshooting

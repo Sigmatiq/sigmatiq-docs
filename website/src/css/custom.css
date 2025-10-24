@@ -1,30 +1,230 @@
 /**
- * Any CSS included here will be global. The classic template
- * bundles Infima by default. Infima is a CSS framework designed to
- * work well for content-centric websites.
+ * Sigmatiq Brand Design System for Docusaurus
+ * Based on sigmatiq-web-app design tokens
  */
 
-/* You can override the default Infima variables here. */
+/* ============================================
+   LIGHT MODE (Default)
+   ============================================ */
 :root {
-  --ifm-color-primary: #2e8555;
-  --ifm-color-primary-dark: #29784c;
-  --ifm-color-primary-darker: #277148;
-  --ifm-color-primary-darkest: #205d3b;
-  --ifm-color-primary-light: #33925d;
-  --ifm-color-primary-lighter: #359962;
-  --ifm-color-primary-lightest: #3cad6e;
+  /* Sigmatiq Brand Colors */
+  --sigmatiq-teal: #00C4A7;
+  --sigmatiq-teal-light: #48C9B0;
+  --sigmatiq-teal-dark: #16A085;
+  --sigmatiq-golden: #FFB800;
+  --sigmatiq-cream: #E8E3D9;
+  --sigmatiq-cream-light: #F0EBE3;
+  --sigmatiq-cream-dark: #D8D3C9;
+  --sigmatiq-cool-gray: #F5F5F7;
+  --sigmatiq-blue: #3B82F6;
+
+  /* Map to Docusaurus primary color */
+  --ifm-color-primary: #00C4A7;
+  --ifm-color-primary-dark: #16A085;
+  --ifm-color-primary-darker: #138D75;
+  --ifm-color-primary-darkest: #117A65;
+  --ifm-color-primary-light: #48C9B0;
+  --ifm-color-primary-lighter: #76D7C4;
+  --ifm-color-primary-lightest: #A3E4D7;
+
+  /* Accent colors */
+  --ifm-color-secondary: #FFB800;
+  --ifm-color-info: #3B82F6;
+  --ifm-color-success: #00C4A7;
+  --ifm-color-warning: #FFB800;
+  --ifm-color-danger: #EF4444;
+
+  /* Typography */
+  --ifm-font-family-base: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+  --ifm-font-family-monospace: 'JetBrains Mono', 'Fira Code', Consolas, Monaco, 'Courier New', monospace;
+  --ifm-font-size-base: 16px;
+  --ifm-line-height-base: 1.65;
   --ifm-code-font-size: 95%;
-  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
+
+  /* Border radius (Sigmatiq uses rounded corners) */
+  --ifm-global-radius: 8px;
+  --ifm-button-border-radius: 8px;
+  --ifm-card-border-radius: 12px;
+  --ifm-code-border-radius: 6px;
+
+  /* Spacing */
+  --ifm-spacing-horizontal: 1rem;
+  --ifm-spacing-vertical: 1rem;
+  --ifm-navbar-padding-horizontal: 1.5rem;
+  --ifm-navbar-padding-vertical: 1rem;
+
+  /* Code blocks */
+  --docusaurus-highlighted-code-line-bg: rgba(0, 196, 167, 0.1);
+
+  /* Navbar */
+  --ifm-navbar-background-color: #FFFFFF;
+  --ifm-navbar-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+
+  /* Footer */
+  --ifm-footer-background-color: #0F1A1A;
+  --ifm-footer-color: #E8E3D9;
+  --ifm-footer-link-color: #00C4A7;
+  --ifm-footer-link-hover-color: #48C9B0;
+
+  /* Links */
+  --ifm-link-color: #00C4A7;
+  --ifm-link-hover-color: #16A085;
+  --ifm-link-decoration: none;
+  --ifm-link-hover-decoration: underline;
 }
 
-/* For readability concerns, you should choose a lighter palette in dark mode. */
+/* ============================================
+   DARK MODE (Sigmatiq-branded)
+   ============================================ */
 [data-theme='dark'] {
-  --ifm-color-primary: #25c2a0;
-  --ifm-color-primary-dark: #21af90;
-  --ifm-color-primary-darker: #1fa588;
-  --ifm-color-primary-darkest: #1a8870;
-  --ifm-color-primary-light: #29d5b0;
-  --ifm-color-primary-lighter: #32d8b4;
-  --ifm-color-primary-lightest: #4fddbf;
-  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
+  /* Backgrounds - Sigmatiq dark palette */
+  --ifm-background-color: #0A1414;
+  --ifm-background-surface-color: #0F1A1A;
+
+  /* Card backgrounds */
+  --ifm-card-background-color: #152626;
+  --ifm-hover-overlay: #2A3F3F;
+
+  /* Text colors */
+  --ifm-font-color-base: #E8E3D9;
+  --ifm-font-color-secondary: #8FA5A5;
+  --ifm-color-content: #A0B5B5;
+  --ifm-color-content-secondary: #6A8080;
+
+  /* Primary colors (keep teal in dark mode) */
+  --ifm-color-primary: #00C4A7;
+  --ifm-color-primary-dark: #00B396;
+  --ifm-color-primary-darker: #00A085;
+  --ifm-color-primary-darkest: #008D74;
+  --ifm-color-primary-light: #1ACFB2;
+  --ifm-color-primary-lighter: #33D8BB;
+  --ifm-color-primary-lightest: #66E5CC;
+
+  /* Borders */
+  --ifm-color-emphasis-100: #2A3F3F;
+  --ifm-color-emphasis-200: #2A3F3F;
+  --ifm-color-emphasis-300: #3A4F4F;
+  --ifm-color-emphasis-400: #3A4F4F;
+  --ifm-color-emphasis-500: #4A5F5F;
+  --ifm-color-emphasis-600: #5A6F6F;
+  --ifm-color-emphasis-700: #6A8080;
+  --ifm-color-emphasis-800: #8FA5A5;
+  --ifm-color-emphasis-900: #A0B5B5;
+  --ifm-color-emphasis-1000: #E8E3D9;
+
+  /* Navbar dark */
+  --ifm-navbar-background-color: #0F1A1A;
+  --ifm-navbar-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  --ifm-navbar-link-color: #E8E3D9;
+  --ifm-navbar-link-hover-color: #00C4A7;
+  --ifm-navbar-link-active-color: #00C4A7;
+
+  /* Sidebar */
+  --ifm-menu-color: #E8E3D9;
+  --ifm-menu-color-active: #00C4A7;
+  --ifm-menu-color-background-active: rgba(0, 196, 167, 0.1);
+  --ifm-menu-color-background-hover: #2A3F3F;
+
+  /* Footer dark */
+  --ifm-footer-background-color: #0A1414;
+  --ifm-footer-color: #8FA5A5;
+  --ifm-footer-link-color: #00C4A7;
+  --ifm-footer-link-hover-color: #48C9B0;
+  --ifm-footer-title-color: #E8E3D9;
+
+  /* Code blocks dark */
+  --ifm-code-background: #152626;
+  --ifm-pre-background: #152626;
+  --docusaurus-highlighted-code-line-bg: rgba(0, 196, 167, 0.15);
+
+  /* Tables */
+  --ifm-table-border-color: #2A3F3F;
+  --ifm-table-head-background: #152626;
+  --ifm-table-stripe-background: rgba(21, 38, 38, 0.5);
+
+  /* Alerts/Admonitions */
+  --ifm-alert-background-color: #152626;
+  --ifm-alert-border-color: #2A3F3F;
+  --ifm-alert-color: #E8E3D9;
+
+  /* Scrollbar */
+  --ifm-scrollbar-track-background-color: #0F1A1A;
+  --ifm-scrollbar-thumb-background-color: #2A3F3F;
+  --ifm-scrollbar-thumb-hover-background-color: #3A4F4F;
+}
+
+/* ============================================
+   CUSTOM COMPONENT STYLES
+   ============================================ */
+
+/* Navbar branding */
+.navbar__logo {
+  height: 40px !important;
+  width: 40px;
+}
+
+.navbar__title {
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+
+/* Sidebar menu items */
+.menu__link {
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.menu__link:hover {
+  background-color: var(--ifm-menu-color-background-hover);
+}
+
+.menu__link--active {
+  font-weight: 600;
+  border-left: 3px solid var(--ifm-color-primary);
+  background-color: var(--ifm-menu-color-background-active);
+}
+
+/* Tables */
+table thead tr {
+  background-color: var(--ifm-table-head-background);
+  border-bottom: 2px solid var(--ifm-color-primary);
+}
+
+table th {
+  font-weight: 600;
+  color: var(--ifm-color-primary);
+}
+
+/* Markdown headings */
+.markdown h1 {
+  border-bottom: 2px solid var(--ifm-color-primary);
+  padding-bottom: 0.5rem;
+}
+
+.markdown h3 {
+  color: var(--ifm-color-primary);
+}
+
+/* Blockquotes */
+blockquote {
+  border-left: 4px solid var(--ifm-color-primary);
+  background-color: rgba(0, 196, 167, 0.05);
+}
+
+[data-theme='dark'] blockquote {
+  background-color: rgba(0, 196, 167, 0.08);
+}
+
+/* Focus styles for accessibility */
+*:focus-visible {
+  outline: 2px solid var(--ifm-color-primary);
+  outline-offset: 2px;
+}
+
+/* Mobile adjustments */
+@media (max-width: 996px) {
+  .navbar__logo {
+    height: 32px !important;
+    width: 32px;
+  }
 }

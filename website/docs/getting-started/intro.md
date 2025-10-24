@@ -11,19 +11,19 @@ keywords: [getting started, quickstart, beginner, trading]
 
 ## What Makes Sigmatiq Different?
 
-### 🎯 Beginner-First Design
+###  Beginner-First Design
 - **Plain language** - No confusing jargon
 - **Progressive disclosure** - Start simple, grow as you learn
 - **Paper trading** - Practice without risking real money
 - **Built-in education** - Learn as you trade
 
-### 🛡️ Safety First
+###  Safety First
 - **Capital preservation** - Conservative defaults protect your money
 - **Position limits** - Prevents over-trading
 - **Paper trading mode** - Test strategies risk-free
 - **Clear warnings** - Understand risks before you trade
 
-### 🚀 Powerful Yet Simple
+###  Powerful Yet Simple
 - **Point System** - Complex analysis simplified into a single score
 - **Smart watchlists** - Pre-built lists for beginners
 - **AI Assistant** - Get help when you need it
@@ -62,18 +62,18 @@ import DocCardList from '@theme/DocCardList';
 
 ## Need Help?
 
-- 📚 **Read the Guides** - In-depth tutorials and explanations
-- 💬 **Ask the AI Assistant** - Get instant help in the app
-- 🐛 **Report Issues** - [GitHub Issues](https://github.com/Sigmatiq/sigmatiq-docs/issues)
-- 📧 **Contact Support** - support@sigmatiq.com
+-  **Read the Guides** - In-depth tutorials and explanations
+-  **Ask the AI Assistant** - Get instant help in the app
+-  **Report Issues** - [GitHub Issues](https://github.com/Sigmatiq/sigmatiq-docs/issues)
+-  **Contact Support** - support@sigmatiq.com
 
 ## Next Steps
 
 Ready to start? Choose your path:
 
-1. **Complete Beginner** → [Authentication Guide](./authentication)
-2. **Some Trading Experience** → [API Reference](/docs/api-reference/overview)
-3. **Developer/Technical** → [Infrastructure](/docs/infrastructure/azure-deployment)
+1. **Complete Beginner**  [Authentication Guide](./authentication)
+2. **Some Trading Experience**  [API Reference](/docs/api-reference/overview)
+3. **Developer/Technical**  [Infrastructure](/docs/infrastructure/azure-deployment)
 
 ---
 
