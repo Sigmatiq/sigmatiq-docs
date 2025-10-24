@@ -70,15 +70,16 @@ const config: Config = {
 
   themeConfig: {
     // Replace with your project's social card
-    image: 'img/docusaurus-social-card.jpg',
+    image: 'img/logo.svg',
     colorMode: {
-      respectPrefersColorScheme: true,
+      defaultMode: 'dark',
+      respectPrefersColorScheme: false,
     },
     navbar: {
-      title: 'Sigmatiq Docs',
+      title: '',
       logo: {
         alt: 'Sigmatiq Logo',
-        src: 'img/logo.svg',
+        src: 'img/logo-navbar.svg',
       },
       items: [
         {

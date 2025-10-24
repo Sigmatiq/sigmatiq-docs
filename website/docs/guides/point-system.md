@@ -17,11 +17,11 @@ Instead of looking at dozens of indicators (RSI, MACD, Bollinger Bands, etc.), t
 
 | Score Range | Signal | What It Means | For Beginners |
 |-------------|--------|---------------|---------------|
-| **+60 to +80** | 🟢 Strong Bullish | Very positive momentum | Consider buying |
-| **+20 to +60** | 🟢 Moderate Bullish | Positive trend | Watch closely |
-| **-20 to +20** | 🟡 Neutral | No clear direction | Be cautious |
-| **-60 to -20** | 🔴 Moderate Bearish | Negative trend | Avoid buying |
-| **-80 to -60** | 🔴 Strong Bearish | Very negative momentum | Consider selling/avoiding |
+| **+60 to +80** |  Strong Bullish | Very positive momentum | Consider buying |
+| **+20 to +60** |  Moderate Bullish | Positive trend | Watch closely |
+| **-20 to +20** |  Neutral | No clear direction | Be cautious |
+| **-60 to -20** |  Moderate Bearish | Negative trend | Avoid buying |
+| **-80 to -60** |  Strong Bearish | Very negative momentum | Consider selling/avoiding |
 
 :::tip For Beginners
 Start by **only** considering stocks with scores above +40. This filters out risky or unclear opportunities.
@@ -73,11 +73,11 @@ Let's say you're looking at **AAPL (Apple)**:
 ```
 
 **What this tells you:**
-- **Score: 65** → Strong bullish signal (in the +60 to +80 range)
-- **Coverage: 0.95** → 95% of indicators had data (high confidence)
-- **Reliability: 0.88** → Historical accuracy of 88% in this regime
-- **Regime: trend** → Stock is trending (not just bouncing around)
-- **Indicators: 27/28** → Almost all indicators contributed
+- **Score: 65**  Strong bullish signal (in the +60 to +80 range)
+- **Coverage: 0.95**  95% of indicators had data (high confidence)
+- **Reliability: 0.88**  Historical accuracy of 88% in this regime
+- **Regime: trend**  Stock is trending (not just bouncing around)
+- **Indicators: 27/28**  Almost all indicators contributed
 
 **Beginner translation:** "Apple looks very strong right now, based on 27 different technical indicators. This is a good potential buy signal."
 
@@ -123,16 +123,16 @@ This filters out:
 ## What the Point System Does NOT Do
 
 The Point System is **NOT**:
-- ❌ A guarantee of profit
-- ❌ A replacement for research
-- ❌ Financial advice
-- ❌ A crystal ball
+-  A guarantee of profit
+-  A replacement for research
+-  Financial advice
+-  A crystal ball
 
 It **IS**:
-- ✅ A data-driven analysis tool
-- ✅ A way to filter opportunities
-- ✅ A starting point for research
-- ✅ A beginner-friendly indicator
+-  A data-driven analysis tool
+-  A way to filter opportunities
+-  A starting point for research
+-  A beginner-friendly indicator
 
 ## Advanced: How Scores are Calculated
 
@@ -145,8 +145,8 @@ Each indicator is converted to a **z-score** (standard deviations from average),
 
 ### Step 2: Apply Weights
 Indicators are weighted based on their **historical predictive power** (IC - Information Coefficient):
-- High IC → Higher weight
-- Low IC → Lower weight
+- High IC  Higher weight
+- Low IC  Lower weight
 - Weights are clamped between 0.4 and 2.0
 
 ### Step 3: Regime Adjustment

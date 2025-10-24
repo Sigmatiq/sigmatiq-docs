@@ -1,0 +1,37 @@
+.assistantFab {
+  position: fixed;
+  right: calc(env(safe-area-inset-right, 0px) + 16px);
+  bottom: calc(env(safe-area-inset-bottom, 0px) + 16px);
+  z-index: 1000;
+  width: 52px;
+  height: 52px;
+  border-radius: 26px;
+  border: 1px solid var(--ifm-color-emphasis-300);
+  background: var(--ifm-color-primary);
+  color: #FFFFFF;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.assistantFab:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 24px rgba(0, 196, 167, 0.4);
+  background: var(--ifm-color-primary-light);
+}
+
+.assistantFab:active {
+  transform: translateY(0);
+}
+
+@media (max-width: 996px) {
+  .assistantFab {
+    right: 12px;
+    bottom: 12px;
+    width: 48px;
+    height: 48px;
+  }
+}

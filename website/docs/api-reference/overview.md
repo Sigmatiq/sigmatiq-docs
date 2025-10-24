@@ -139,6 +139,6 @@ Official SDKs coming soon:
 
 ## Need Help?
 
-- 📧 **Developer Support:** dev@sigmatiq.com
-- 🐛 **Report API Issues:** [GitHub Issues](https://github.com/Sigmatiq/sigmatiq-docs/issues)
-- 💬 **Community:** [Discord](https://discord.gg/sigmatiq) *(coming soon)*
+-  **Developer Support:** dev@sigmatiq.com
+-  **Report API Issues:** [GitHub Issues](https://github.com/Sigmatiq/sigmatiq-docs/issues)
+-  **Community:** [Discord](https://discord.gg/sigmatiq) *(coming soon)*

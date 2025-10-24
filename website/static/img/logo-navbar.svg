@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 100 100">
+  <!-- Golden corner (2x2 area) -->
+  <rect x="2" y="2" width="28" height="28" rx="4" fill="#FFB800"/>
+  <rect x="34" y="2" width="28" height="28" rx="4" fill="#FFB800"/>
+  <rect x="2" y="34" width="28" height="28" rx="4" fill="#FFB800"/>
+  <!-- Teal radiation from corner -->
+  <rect x="34" y="34" width="28" height="28" rx="4" fill="#00C4A7"/>
+  <rect x="66" y="34" width="28" height="28" rx="4" fill="#00C4A7"/>
+  <rect x="34" y="66" width="28" height="28" rx="4" fill="#00C4A7"/>
+  <rect x="66" y="66" width="28" height="28" rx="4" fill="#00C4A7"/>
+</svg>
