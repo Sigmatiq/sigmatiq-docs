@@ -84,21 +84,19 @@ const config: Config = {
       items: [
         {
           type: 'docSidebar',
-          sidebarId: 'gettingStartedSidebar',
+          sidebarId: 'cardApiSidebar',
           position: 'left',
-          label: 'Getting Started',
+          label: 'Card API',
         },
         {
           type: 'docSidebar',
-          sidebarId: 'apiReferenceSidebar',
+          sidebarId: 'cardApiSidebar',
           position: 'left',
-          label: 'API Reference',
         },
         {
           type: 'docSidebar',
-          sidebarId: 'guidesSidebar',
+          sidebarId: 'cardApiSidebar',
           position: 'left',
-          label: 'Guides',
         },
         {
           type: 'docSidebar',
@@ -120,16 +118,14 @@ const config: Config = {
           title: 'Docs',
           items: [
             {
-              label: 'Getting Started',
-              to: '/docs/getting-started/intro',
+              label: 'Card API',
+              to: '/docs/card-api',
             },
             {
-              label: 'API Reference',
-              to: '/docs/api-reference/overview',
+              to: '/docs/card-api',
             },
             {
-              label: 'Guides',
-              to: '/docs/guides/point-system',
+              to: '/docs/card-api',
             },
           ],
         },

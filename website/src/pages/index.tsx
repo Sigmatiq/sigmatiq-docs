@@ -20,12 +20,12 @@ function HomepageHeader() {
         <div className={styles.buttons}>
           <Link
             className="button button--primary button--lg"
-            to="/docs/getting-started/intro">
+            to="/docs/card-api">
             Get Started
           </Link>
           <Link
             className="button button--secondary button--lg"
-            to="/docs/guides/card-api-overview"
+            to="/docs/card-api"
             style={{marginLeft: '1rem'}}>
             Card API Guide
           </Link>
