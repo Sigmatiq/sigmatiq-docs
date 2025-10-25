@@ -470,10 +470,10 @@ Questions or suggestions about this infrastructure?
 
 - [Architecture Review Fixes](https://github.com/Sigmatiq/sigmatiq-infrastructure/blob/main/docs/REVIEW_FIXES.md) - All fixes applied based on architecture review
 - [Infrastructure README](https://github.com/Sigmatiq/sigmatiq-infrastructure/blob/main/README.md) - Deployment scripts and troubleshooting
-- [Database Schema Reference](./DATABASE_SCHEMA.md) *(coming soon)*
-- [API Deployment Guide](./API_DEPLOYMENT.md) *(coming soon)*
-- [Monitoring Setup](./MONITORING_SETUP.md) *(coming soon)*
-- [Cost Optimization](./COST_OPTIMIZATION.md) *(coming soon)*
+- [Database Schema Reference](./DATABASE_SCHEMA) *(coming soon)*
+- [API Deployment Guide](./API_DEPLOYMENT) *(coming soon)*
+- [Monitoring Setup](./MONITORING_SETUP) *(coming soon)*
+- [Cost Optimization](./COST_OPTIMIZATION) *(coming soon)*
 
 ---
 
